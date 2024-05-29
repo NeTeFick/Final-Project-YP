@@ -50,7 +50,7 @@ const updateUser = async (req, res, next) => {
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({ message: "не удалось обновить пользователя" }))
-    
+
   }
 }
 
@@ -66,14 +66,14 @@ const deleteUser = async (req, res, next) => {
 
 const checkEmptyNameAndEmailAndPassword = async (req, res, next) => {
   if (!req.body.username ||
-      !req.body.email ||
-      !req.body.password
-   ) {
+    !req.body.email ||
+    !req.body.password
+  ) {
     res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({ message: "Одно из полей не заполнено" }))
-   } else {
+  } else {
     next();
-   }
+  }
 }
 
 const checkEmptyNameAndEmail = async (req, res, next) => {
@@ -85,9 +85,21 @@ const checkEmptyNameAndEmail = async (req, res, next) => {
   }
 }
 
-
+const checkIsUserExists = async (req, res, next) => {
+  const isInArray = req.usersArray.find((user) => {
+    return req.body.email === user.email;
+  });
+  if (isInArray) {
+    res
+      .status(400)
+      .send({ message: "Пользователь с таким email уже существует" });
+  } else {
+    next();
+  }
+};
 
 module.exports = {
+  checkIsUserExists,
   findAllUsers,
   createUser,
   findUserById,
@@ -97,5 +109,3 @@ module.exports = {
   checkEmptyNameAndEmail,
   hashPassword
 };
-
-// Проблема в роуте

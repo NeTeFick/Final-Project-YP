@@ -26,9 +26,9 @@ const {
 } = require("../middlewares/auth")
 
 gameRouter.get("/games", findAllGames, sendAllGames);
-gameRouter.post("/games", findAllGames, checkIsGameExists, createGame, sendGameCreated, checkAuth);
+gameRouter.post("/games", findAllGames, checkIsGameExists, checkAuth, createGame, sendGameCreated);
 gameRouter.get("/games/:id", findGameById, sendGameById);
-gameRouter.put("/games/:id", findGameById, checkIsVoteRequest, checkIfUsersAreSafe, checkIfCategoriesAvaliable, checkEmptyFields, updateGame, sendGameUpdated, checkAuth );
+gameRouter.put("/games/:id", findGameById, checkIsVoteRequest, checkIfUsersAreSafe, checkIfCategoriesAvaliable, checkEmptyFields, updateGame, sendGameUpdated, checkAuth);
 gameRouter.delete("/games/:id", checkAuth, deleteGame, sendGameDeleted)
 
 module.exports = gameRouter;

@@ -5,7 +5,7 @@ const categoryModel = require('./category');
 
 const gameSchema = new mongoose.Schema({
   title: {
-      // Поле со строковым значением
+    // Поле со строковым значением
     type: String,
     // Явно указываем, что поле обязательно при записи в базу нового документа
     required: true,
@@ -37,21 +37,21 @@ const gameSchema = new mongoose.Schema({
   }],
 });
 
-gameSchema.statics.findGameByCategory = function(category) {
+gameSchema.statics.findGameByCategory = function (category) {
   return this.find({})
-  .populate({
-    path: "categories",
-    math: { name: category }
-  })
-  .populate({
-    path: "users",
-    select: "-password"
-  })
-  .then(game => {
-    return game.filter(game => game.categories.length > 0)
-  })
+    .populate({
+      path: "categories",
+      math: { name: category }
+    })
+    .populate({
+      path: "users",
+      select: "-password"
+    })
+    .then(game => {
+      return game.filter(game => game.categories.length > 0)
+    })
 }
 
-const game = mongoose.model('games', gameSchema); 
+const game = mongoose.model('games', gameSchema);
 
 module.exports = game;

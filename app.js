@@ -7,7 +7,7 @@ const apiRouter = require("./routes/apiRouter");
 const connectToDatabase = require("./database/connect");
 const pagesRouter = require("./routes/page.js")
 const cors = require("./middlewares/cors");
-const PORT = 3000;
+const PORT = 3001;
 
 const app = express();
 connectToDatabase();

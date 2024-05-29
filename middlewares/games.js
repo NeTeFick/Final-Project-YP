@@ -2,19 +2,19 @@ const game = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
 
-  if(req.query["categories.name"]) {
+  if (req.query["categories.name"]) {
     req.gamesArray = await game.findGameByCategory(req.query["categories.name"]);
     next();
     return;
   }
 
   req.gamesArray = await game
-  .find({})
-  .populate({
-    path: "users",
-    select: "-password"
-  })
-  .populate("categories");
+    .find({})
+    .populate({
+      path: "users",
+      select: "-password"
+    })
+    .populate("categories");
   next()
 }
 
@@ -39,7 +39,7 @@ const createGame = async (req, res, next) => {
     res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({ message: "Не удалось создать игру" }));
   }
-  
+
 }
 
 const updateGame = async (req, res, next) => {
@@ -87,7 +87,7 @@ const checkIfCategoriesAvaliable = async (req, res, next) => {
     next();
     return
   }
-  
+
   if (!req.body.categories || req.body.categories.length === 0) {
     res.setHeader("Content-Type", "aplication/json");
     res.status(400).send(JSON.stringify({ message: "Заполните категорию" }));
@@ -112,7 +112,7 @@ const checkIfUsersAreSafe = async (req, res, next) => {
 
 const checkIsGameExists = async (req, res, next) => {
   const isInArray = req.gamesArray.find((game) => {
-    return req.body.name === game.title
+    return req.body.title === game.title
   });
 
   if (isInArray) {
@@ -126,10 +126,10 @@ const checkIsGameExists = async (req, res, next) => {
 
 const checkIsVoteRequest = async (req, res, next) => {
   // Если в запросе присылают только поле users
-if (Object.keys(req.body).length === 1 && req.body.users) {
-  req.isVoteRequest = true;
-}
-next();
+  if (Object.keys(req.body).length === 1 && req.body.users) {
+    req.isVoteRequest = true;
+  }
+  next();
 };
 
 
